@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kob.backend.mapper.UserMapper;
 import com.kob.backend.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,9 +17,15 @@ public class UserController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @GetMapping("")
+    public String Hello(){
+        return "Hello World";
+    }
+
     /**
      * 使用myBatics接口进行CRUD
-     *
+     */
     @GetMapping("/user/all")
     public List<User> getAll(){
         return userMapper.selectList(null);
@@ -34,7 +42,7 @@ public class UserController {
         return userMapper.selectOne(queryWrapper);
     }
 
-    @GetMapping("/user/getusers")
+    @GetMapping("/user/getUsers")
     public List<User> getUsers(){
         //范围查询
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -43,21 +51,23 @@ public class UserController {
         return userMapper.selectList(queryWrapper);
     }
 
-    @GetMapping("/user/add/{userId}/{userName}/{password}/")
+    @GetMapping("/user/add/{userId}/{userName}/{password}")
     public String addUser(@PathVariable int userId,
                           @PathVariable String userName,
                           @PathVariable String password){
-        User user = new User(userId,userName,password);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(password);
+        User user = new User(userId,userName,encodedPassword,"");
         userMapper.insert(user);
         return "Add user successfully";
     }
 
-    @GetMapping("/user/delete/{userId}/")
+    @GetMapping("/user/delete/{userId}")
     public String deleteUserById(@PathVariable int userId){
         userMapper.deleteById(userId);
         return "Delete User successfully";
     }
-    */
+    /**/
 
 
 }
