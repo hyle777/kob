@@ -43,7 +43,7 @@
             </ul>
           </li>
         </ul>
-        <ul class="navbar-nav" v-else>
+        <ul class="navbar-nav" v-else-if="$store.state.user.is_show">
           <li class="nav-item">
             <router-link
               class="nav-link"

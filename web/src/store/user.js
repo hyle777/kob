@@ -7,6 +7,7 @@ export default {
     photo: "",
     token: "",
     is_login: false,
+    is_show: false,
   },
   getters: {},
   mutations: {
@@ -25,6 +26,10 @@ export default {
       state.photo = "";
       state.token = "";
       state.is_login = false;
+      localStorage.removeItem("jwt_token");
+    },
+    updateIsShow(state, is_show) {
+      state.is_show = is_show;
     },
   },
   actions: {
@@ -41,7 +46,7 @@ export default {
             context.commit("updateToken", resp.token);
             data.success(resp);
             console.log("登录成功");
-            console.log(resp);
+            localStorage.setItem("jwt_token", resp.token);
           } else {
             data.error(resp);
           }
