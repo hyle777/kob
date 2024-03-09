@@ -1,5 +1,4 @@
 <template>
-  <NavBar></NavBar>
   <ContentFiled v-if="$store.state.user.is_show">
     登录
     <div class="row justify-content-md-center">
@@ -34,7 +33,6 @@
 </template>
 
 <script>
-import NavBar from "@/components/NavBar.vue";
 import ContentFiled from "@/components/ContentField.vue";
 import { useStore } from "vuex";
 import { ref } from "vue";
@@ -43,7 +41,6 @@ import router from "@/router/index";
 export default {
   components: {
     ContentFiled,
-    NavBar,
   },
   setup() {
     const store = useStore();

@@ -1,4 +1,5 @@
 <template>
+  <NavBar></NavBar>
   <router-view />
 </template>
 
@@ -8,6 +9,7 @@
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap";
+import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: "app",
@@ -78,7 +80,7 @@ export default {
     // });
     // return {x};
   },
-  components: {},
+  components: { NavBar },
 };
 </script>
 

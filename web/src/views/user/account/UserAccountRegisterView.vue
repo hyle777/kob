@@ -1,5 +1,4 @@
 <template>
-  <NavBar></NavBar>
   <ContentFiled>
     注册
     <div class="row justify-content-md-center">
@@ -44,7 +43,6 @@
 </template>
 
 <script>
-import NavBar from "@/components/NavBar.vue";
 import ContentFiled from "@/components/ContentField.vue";
 import { ref } from "vue";
 import $ from "jquery";
@@ -53,7 +51,6 @@ import router from "@/router/index";
 export default {
   components: {
     ContentFiled,
-    NavBar,
   },
   setup() {
     let username = ref("");

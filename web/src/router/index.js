@@ -3,12 +3,21 @@ import UserAccountLoginView from "@/views/user/account/UserAccountLoginView.vue"
 import UserAccountRegisterView from "@/views/user/account/UserAccountRegisterView.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import store from "@/store/index";
+import MyBot from "@/views/user/bot/BotIndexView.vue";
 
 const routes = [
   {
     path: "/",
     name: "home",
     redirect: "/pk/",
+  },
+  {
+    path: "/user/bot/",
+    name: "user_bot",
+    component: MyBot,
+    meta: {
+      requestAuth: true,
+    },
   },
   {
     path: "/pk/",

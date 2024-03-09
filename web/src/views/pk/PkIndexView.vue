@@ -1,5 +1,4 @@
 <template>
-  <NavBar />
   <img v-bind:src="$store.state.user.photo" />
 </template>
 
