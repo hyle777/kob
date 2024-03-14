@@ -1,14 +1,12 @@
 <template>
-  <img v-bind:src="$store.state.user.photo" />
+  <PlayGround />
 </template>
 
 <script>
-import NavBar from "@/components/NavBar.vue";
+import PlayGround from "@/components/PlayGround.vue";
 
 export default {
-  components: {
-    NavBar,
-  },
+  components: { PlayGround },
 };
 </script>
 <style scoped></style>
