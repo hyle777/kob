@@ -3,10 +3,11 @@ import { Snake } from "./Snake";
 import { Wall } from "./Wall";
 
 export class GameMap extends AcGameObject {
-  constructor(ctx, parent) {
+  constructor(ctx, parent, store) {
     super();
     this.ctx = ctx;
     this.parent = parent;
+    this.store = store;
 
     this.L = 0;
     this.rows = 13;
@@ -74,6 +75,8 @@ export class GameMap extends AcGameObject {
     }
     return true;
   }
+  //* 生成地图的逻辑最后要写在后端实现
+  /** 
   check_connectivity(g, sx, sy, tx, ty) {
     if (sx === tx && sy === ty) return true;
     g[sx][sy] = true;
@@ -88,7 +91,9 @@ export class GameMap extends AcGameObject {
     }
     return false;
   }
+  */
   create_walls() {
+    /** 
     const g = []; //墙为false
     for (let r = 0; r < this.rows; r++) {
       g[r] = [];
@@ -130,9 +135,11 @@ export class GameMap extends AcGameObject {
     if (!this.check_connectivity(copy_g, this.rows - 2, 1, 1, this.cols - 2)) {
       return false;
     }
+    */
+    const g = this.store.state.pk.gamemap;
     for (let r = 0; r < this.rows; r++) {
       for (let c = 0; c < this.cols; c++) {
-        if (g[r][c]) {
+        if (g[r][c] == 1) {
           this.walls.push(new Wall(r, c, this));
         }
       }
@@ -141,9 +148,11 @@ export class GameMap extends AcGameObject {
   }
 
   start() {
-    for (let i = 0; i < 1000; i++) {
-      if (this.create_walls()) break;
-    }
+    //* 随机1000次创建地图
+    // for (let i = 0; i < 1000; i++) {
+    //   if (this.create_walls()) break;
+    // }
+    this.create_walls();
     this.add_listening_event();
   }
   //求出划分单元格的实际大小
