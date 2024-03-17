@@ -1,4 +1,5 @@
 <template>
+  <ResultBoard v-if="$store.state.pk.loser !== 'none'" />
   <MatchGround v-if="$store.state.pk.status === 'matching'" />
   <PlayGround v-if="$store.state.pk.status === 'playing'" />
 </template>
@@ -6,17 +7,17 @@
 <script>
 import MatchGround from "@/components/MatchGround.vue";
 import PlayGround from "@/components/PlayGround.vue";
+import ResultBoard from "@/components/ResultBoard.vue";
 import { useStore } from "vuex";
 import { onMounted, onUnmounted } from "vue";
 
 export default {
-  components: { MatchGround, PlayGround },
+  components: { MatchGround, PlayGround, ResultBoard },
   setup() {
     const store = useStore();
     let socketUrl = `ws://127.0.0.1:3000/websocket/${store.state.user.token}/`;
     let socket = null;
     onMounted(() => {
-      console.log(store);
       store.commit("updateOpponent", {
         username: "我的对手",
         photo:
@@ -45,16 +46,42 @@ export default {
       socket.onmessage = (msg) => {
         const data = JSON.parse(msg.data);
         if (data.event === "start-matching") {
+          console.log("matched");
           store.commit("updateOpponent", {
             username: data.opponent_username,
             photo: data.opponent_photo,
           });
-          store.commit("updateGameMap", {
-            gamemap: data.gamemap,
-          });
+          store.commit("updateGame", data.game);
+
           setTimeout(() => {
             store.commit("updateStatus", "playing");
-          }, 2000);
+          }, 200);
+        } else if (data.event === "move") {
+          console.log("66666====");
+          console.log(data);
+          const game = store.state.pk.gameObject;
+          const [snake0, snake1] = game.snakes;
+          snake0.set_direction(data.a_direction);
+          snake1.set_direction(data.b_direction);
+
+          console.log(snake0);
+          console.log(snake1);
+        } else if (data.event === "result") {
+          console.log(data);
+          const game = store.state.pk.gameObject;
+          const [snake0, snake1] = game.snakes;
+          if (data.loser === "all" || data.loser === "A") {
+            snake0.status = "die";
+          }
+          if (data.loser === "all" || data.loser === "B") {
+            snake1.status = "die";
+          }
+          store.commit("updateLoser", data.loser);
+          console.log(store.pk);
+          console.log(store.state.pk.loser === "A");
+          console.log(typeof store.state.pk.a_id);
+          console.log(typeof store.state.user.id);
+          console.log(store.state.pk.a_id === store.state.user.id);
         }
       };
     });
