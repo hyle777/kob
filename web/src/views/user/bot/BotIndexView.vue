@@ -73,7 +73,7 @@
                       <VAceEditor
                         v-model:value="addBot.content"
                         @init="editorInit"
-                        lang="c_cpp"
+                        lang="java"
                         theme="textmate"
                         style="height: 300px"
                         :options="{
@@ -192,9 +192,9 @@
                                 >Bot代码</label
                               >
                               <VAceEditor
-                                v-model:value="addBot.content"
+                                v-model:value="bot.content"
                                 @init="editorInit"
-                                lang="c_cpp"
+                                lang="java"
                                 theme="textmate"
                                 style="height: 300px"
                                 :options="{
@@ -249,10 +249,11 @@ import { reactive, ref } from "vue";
 import { useStore } from "vuex";
 import { Modal } from "bootstrap/dist/js/bootstrap";
 import { VAceEditor } from "vue3-ace-editor";
-import "ace-builds/src-noconflict/mode-c_cpp";
+import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-chrome";
 import "ace-builds/src-noconflict/ext-language_tools";
+import "ace-builds/src-noconflict/snippets/java";
 
 import ace from "ace-builds";
 ace.config.set(
@@ -286,6 +287,8 @@ export default {
         },
         success(resp) {
           bots.value = resp;
+          console.log("bot list");
+          console.log(bots.value);
         },
         error(resp) {
           console.log(resp);

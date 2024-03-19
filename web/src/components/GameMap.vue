@@ -1,4 +1,11 @@
 <template>
+  <div
+    class="tip"
+    v-if="parseInt($store.state.user.id) === $store.state.pk.a_id"
+  >
+    你是A蛇
+  </div>
+  <div v-else class="tip">你是B蛇</div>
   <div ref="parent" class="gamemap">
     <canvas ref="canvas" tabindex="0"></canvas>
   </div>
@@ -39,5 +46,10 @@ div.gamemap {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+div.tip {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
 }
 </style>
