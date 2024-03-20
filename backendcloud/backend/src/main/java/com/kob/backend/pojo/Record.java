@@ -23,7 +23,7 @@ public class Record {
     private Integer bSy;
     String aSteps;
     String bSteps;
-    String map;
+    String gamemap;
     String loser;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     Date createTime;

@@ -1,6 +1,9 @@
 import PkIndexView from "@/views/pk/PkIndexView.vue";
 import UserAccountLoginView from "@/views/user/account/UserAccountLoginView.vue";
 import UserAccountRegisterView from "@/views/user/account/UserAccountRegisterView.vue";
+import RecordIndexView from "@/views/record/RecordIndexView.vue";
+import RecordContentView from "@/views/record/RecordContentView";
+import RankListView from "@/views/ranklist/RankListView";
 import { createRouter, createWebHistory } from "vue-router";
 import store from "@/store/index";
 import MyBot from "@/views/user/bot/BotIndexView.vue";
@@ -16,7 +19,7 @@ const routes = [
     name: "user_bot",
     component: MyBot,
     meta: {
-      requestAuth: true,
+      requestAuth: true, //是否需要先登录再访问
     },
   },
   {
@@ -26,6 +29,27 @@ const routes = [
     meta: {
       requestAuth: true,
     },
+  },
+  {
+    path: "/record/",
+    name: "record",
+    component: RecordIndexView,
+    meta: {
+      requestAuth: true,
+    },
+  },
+  {
+    path: "/record/:recordId",
+    name: "record_content",
+    component: RecordContentView,
+    meta: {
+      requestAuth: true,
+    },
+  },
+  {
+    path: "/ranklist/",
+    name: "ranklist",
+    component: RankListView,
   },
   {
     path: "/user/account/login/",

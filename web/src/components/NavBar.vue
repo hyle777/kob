@@ -20,15 +20,18 @@
               :to="{ name: 'pk' }"
               class="nav-link active"
               aria-current="page"
-              href="#"
               >对战pk</router-link
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">对局列表</a>
+            <router-link :to="{ name: 'record' }" class="nav-link"
+              >对局列表</router-link
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">排行榜</a>
+            <router-link :to="{ name: 'ranklist' }" class="nav-link"
+              >排行榜</router-link
+            >
           </li>
         </ul>
         <ul class="navbar-nav" v-if="$store.state.user.is_login">

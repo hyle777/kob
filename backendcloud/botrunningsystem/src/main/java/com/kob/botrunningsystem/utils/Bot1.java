@@ -1,7 +1,9 @@
 package com.kob.botrunningsystem.utils;
+
 import java.util.ArrayList;
 import java.util.List;
-public class Bot implements com.kob.botrunningsystem.utils.BotInterface {
+
+class Bot1 implements com.kob.botrunningsystem.utils.BotInterface{
     static class Cell {
         public int x, y;
         public Cell(int x, int y) {
@@ -31,6 +33,7 @@ public class Bot implements com.kob.botrunningsystem.utils.BotInterface {
         }
         return res;
     }
+
     @Override
     public Integer nextMove(String input) {
         String[] strs = input.split("#");
@@ -49,13 +52,25 @@ public class Bot implements com.kob.botrunningsystem.utils.BotInterface {
         for (Cell c: aCells) g[c.y][c.x] = 1;
         for (Cell c: bCells) g[c.y][c.x] = 1;
         int[] dx = {0, 1, 0, -1}, dy = {-1, 0, 1, 0};
+        int stk = 0;
+        int next = 0;
         for (int i = 0; i < 4; i ++ ) {
             int x = aCells.get(aCells.size() - 1).x + dx[i];
             int y = aCells.get(aCells.size() - 1).y + dy[i];
             if (x >= 0 && x < 13 && y >= 0 && y < 14 && g[y][x] == 0) {
-                return i;
+                stk = i;
+                //多走一步
+                for(int j = 0;j < 4 ;j++){
+                    int xx = aCells.get(aCells.size() - 1).x + dx[i] + dx[j];
+                    int yy = aCells.get(aCells.size() - 1).y + dy[i] + dy[j];
+                    if (xx >= 0 && xx < 13 && yy >= 0 && yy < 14 && g[yy][xx] == 0) {
+                        next = stk;
+                    }
+                }
             }
+            if(next == 0) next = stk;
+
         }
-        return 0;
+        return next;
     }
 }

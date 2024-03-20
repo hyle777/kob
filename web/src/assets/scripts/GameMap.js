@@ -44,31 +44,55 @@ export class GameMap extends AcGameObject {
     return true;
   }
   add_listening_event() {
-    this.ctx.canvas.focus();
-    // const [snake1, snake2] = this.snakes;
-    this.ctx.canvas.addEventListener("keydown", (e) => {
-      //   if (e.key === "w") snake1.set_direction(0);
-      //   else if (e.key === "d") snake1.set_direction(1);
-      //   else if (e.key === "s") snake1.set_direction(2);
-      //   else if (e.key === "a") snake1.set_direction(3);
-      //   if (e.key === "ArrowUp") snake2.set_direction(0);
-      //   else if (e.key === "ArrowRight") snake2.set_direction(1);
-      //   else if (e.key === "ArrowDown") snake2.set_direction(2);
-      //   else if (e.key === "ArrowLeft") snake2.set_direction(3);
-      let d = -1;
-      if (e.key === "w") d = 0;
-      else if (e.key === "d") d = 1;
-      else if (e.key === "s") d = 2;
-      else if (e.key === "a") d = 3;
-      if (d >= 0) {
-        this.store.state.pk.socket.send(
-          JSON.stringify({
-            event: "move",
-            direction: d,
-          })
-        );
-      }
-    });
+    if (this.store.state.record.is_record) {
+      let k = 0;
+      const a_steps = this.store.state.record.a_steps;
+      const b_steps = this.store.state.record.b_steps;
+      const loser = this.store.state.record.record_loser;
+
+      const [snake0, snake1] = this.snakes;
+      const interval_id = setInterval(() => {
+        if (k >= a_steps.length - 1) {
+          if (loser === "all" || loser === "A") {
+            snake0.status = "die";
+          }
+          if (loser === "all" || loser === "B") {
+            snake1.status = "die";
+          }
+          clearInterval(interval_id);
+        } else {
+          snake0.set_direction(parseInt(a_steps[k]));
+          snake1.set_direction(parseInt(b_steps[k]));
+        }
+        k++;
+      }, 300);
+    } else {
+      this.ctx.canvas.focus();
+      // const [snake1, snake2] = this.snakes;
+      this.ctx.canvas.addEventListener("keydown", (e) => {
+        //   if (e.key === "w") snake1.set_direction(0);
+        //   else if (e.key === "d") snake1.set_direction(1);
+        //   else if (e.key === "s") snake1.set_direction(2);
+        //   else if (e.key === "a") snake1.set_direction(3);
+        //   if (e.key === "ArrowUp") snake2.set_direction(0);
+        //   else if (e.key === "ArrowRight") snake2.set_direction(1);
+        //   else if (e.key === "ArrowDown") snake2.set_direction(2);
+        //   else if (e.key === "ArrowLeft") snake2.set_direction(3);
+        let d = -1;
+        if (e.key === "w") d = 0;
+        else if (e.key === "d") d = 1;
+        else if (e.key === "s") d = 2;
+        else if (e.key === "a") d = 3;
+        if (d >= 0) {
+          this.store.state.pk.socket.send(
+            JSON.stringify({
+              event: "move",
+              direction: d,
+            })
+          );
+        }
+      });
+    }
   }
   //让两条蛇进入下一回合
   next_step() {
@@ -150,6 +174,7 @@ export class GameMap extends AcGameObject {
     }
     */
     const g = this.store.state.pk.gamemap;
+    console.log(g);
     for (let r = 0; r < this.rows; r++) {
       for (let c = 0; c < this.cols; c++) {
         if (g[r][c] == 1) {

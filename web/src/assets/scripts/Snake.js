@@ -41,7 +41,7 @@ export class Snake extends AcGameObject {
     ];
   }
   check_tail_increasing() {
-    if (this.step <= 3) {
+    if (this.step <= 10) {
       return true;
     }
     if (this.step % 3 === 1) {
