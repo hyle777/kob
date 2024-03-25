@@ -15,7 +15,7 @@ export default {
   components: { MatchGround, PlayGround, ResultBoard },
   setup() {
     const store = useStore();
-    let socketUrl = `ws://127.0.0.1:3000/websocket/${store.state.user.token}/`;
+    let socketUrl = `wss://app6715.acapp.acwing.com.cn/websocket/${store.state.user.token}/`;
     let socket = null;
     onMounted(() => {
       store.commit("updateOpponent", {
